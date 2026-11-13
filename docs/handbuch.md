@@ -39,7 +39,7 @@ Handbuch sind die der deutschen.
 ## 2. Installation
 
 **Windows.** `Gerber2Graphtec-x.y.z.exe` von der
-[Release-Seite](https://github.com/reserve85/Gerber_to_Graphtec_modern/releases/latest)
+[Release-Seite](https://github.com/reserve85/gerber2graphtec-modern/releases/latest)
 herunterladen und starten. Es wird nichts installiert, die Datei kann an
 beliebiger Stelle liegen. Das Programm ist nicht signiert; Windows zeigt beim
 ersten Start möglicherweise „Der Computer wurde durch Windows geschützt" -
@@ -393,7 +393,7 @@ Gut zu wissen:
 | *Ragt über das Medium hinaus* | *Versatz* oder *Rand* verkleinern, Schablone drehen oder die tatsächliche Mediengröße eintragen. |
 | *Die Datei enthält keine Pads* | Vermutlich eine andere Lage (Umriss, Bestückungsdruck) oder leer. |
 | *Die Datei konnte nicht gelesen werden* | Keine Gerber-Datei - Bohrdateien und Zip-Archive funktionieren nicht. |
-| Pads fehlen oder sehen falsch aus | Import-Warnungen lesen (Tooltip der Zeile unter dem Dateinamen). Bitte die Datei als [Issue](https://github.com/reserve85/Gerber_to_Graphtec_modern/issues) melden. |
+| Pads fehlen oder sehen falsch aus | Import-Warnungen lesen (Tooltip der Zeile unter dem Dateinamen). Bitte die Datei als [Issue](https://github.com/reserve85/gerber2graphtec-modern/issues) melden. |
 | *Nichts mehr zu schneiden* | *Pad-Verkleinerung* ist größer als die halbe Pad-Breite. |
 | Pads nicht durchgeschnitten / Folie reißt | Siehe [Kapitel 9](#9-tempo-und-kraft-ermitteln). |
 | Runde Pads haben sichtbare Ecken | *Kurventoleranz* in den Einstellungen verkleinern. |

@@ -26,10 +26,10 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/reserve85/Gerber_to_Graphtec_modern"
-Releases = "https://github.com/reserve85/Gerber_to_Graphtec_modern/releases"
-Issues = "https://github.com/reserve85/Gerber_to_Graphtec_modern/issues"
-Changelog = "https://github.com/reserve85/Gerber_to_Graphtec_modern/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/reserve85/gerber2graphtec-modern"
+Releases = "https://github.com/reserve85/gerber2graphtec-modern/releases"
+Issues = "https://github.com/reserve85/gerber2graphtec-modern/issues"
+Changelog = "https://github.com/reserve85/gerber2graphtec-modern/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 dev = ["pytest", "pyinstaller>=6", "ruff"]

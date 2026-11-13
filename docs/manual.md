@@ -36,7 +36,7 @@ check the preview, and send the job to the cutter.
 ## 2. Installation
 
 **Windows.** Download `Gerber2Graphtec-x.y.z.exe` from the
-[releases page](https://github.com/reserve85/Gerber_to_Graphtec_modern/releases/latest)
+[releases page](https://github.com/reserve85/gerber2graphtec-modern/releases/latest)
 and start it. There is nothing to install; the file can live anywhere. The
 program is not code-signed, so Windows may show a "Windows protected your PC"
 notice on the first start - choose *More info > Run anyway*.
@@ -381,7 +381,7 @@ Things to know:
 | *Exceeds the media* | Reduce *Offset* or *Border*, rotate the stencil, or enter the real media size. |
 | *The file contains no pads* | The file is probably another layer (outline, silkscreen) or empty. |
 | *The file could not be read* | It is not a Gerber file - drill files and zip archives do not work. |
-| Pads are missing or look wrong | Read the import warnings (hover over the line below the file name). Please report the file as an [issue](https://github.com/reserve85/Gerber_to_Graphtec_modern/issues). |
+| Pads are missing or look wrong | Read the import warnings (hover over the line below the file name). Please report the file as an [issue](https://github.com/reserve85/gerber2graphtec-modern/issues). |
 | *Nothing left to cut* | *Pad shrink* is larger than half the pad width. |
 | Pads are not cut through / film tears | See [chapter 9](#9-finding-good-speed-and-force-values). |
 | Round pads have visible corners | Lower *Curve tolerance* in the settings. |

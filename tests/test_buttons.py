@@ -487,9 +487,9 @@ def test_about_page_buttons(app_env):
     click(win.about_page, "GitHub", qapp)
     click(win.about_page, "Releases", qapp)
     assert f.urls == [
-        "https://github.com/reserve85/Gerber_to_Graphtec_modern/blob/main/docs/manual.md",
-        "https://github.com/reserve85/Gerber_to_Graphtec_modern",
-        "https://github.com/reserve85/Gerber_to_Graphtec_modern/releases",
+        "https://github.com/reserve85/gerber2graphtec-modern/blob/main/docs/manual.md",
+        "https://github.com/reserve85/gerber2graphtec-modern",
+        "https://github.com/reserve85/gerber2graphtec-modern/releases",
     ]
     click(win, "Stencil", qapp)
     assert win.stack.currentWidget() is win.job_page

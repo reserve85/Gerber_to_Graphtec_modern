@@ -5,4 +5,4 @@ __version__ = "2.0.0"
 APP_NAME = "Gerber2Graphtec"
 APP_AUTHOR = "reserve85"
 # GitHub repository that publishes releases; used by the update check.
-GITHUB_REPO = "reserve85/Gerber_to_Graphtec_modern"
+GITHUB_REPO = "reserve85/gerber2graphtec-modern"

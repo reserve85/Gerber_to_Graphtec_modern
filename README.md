@@ -5,8 +5,8 @@ cutters (Silhouette Cameo, Portrait, ...). A modern rewrite of
 [gerber2graphtec](https://github.com/pmonta/gerber2graphtec) with a desktop
 application for Windows and Linux.
 
-[![build](https://github.com/reserve85/Gerber_to_Graphtec_modern/actions/workflows/ci.yml/badge.svg)](https://github.com/reserve85/Gerber_to_Graphtec_modern/actions/workflows/ci.yml)
-[![release](https://img.shields.io/github/v/release/reserve85/Gerber_to_Graphtec_modern)](https://github.com/reserve85/Gerber_to_Graphtec_modern/releases/latest)
+[![build](https://github.com/reserve85/gerber2graphtec-modern/actions/workflows/ci.yml/badge.svg)](https://github.com/reserve85/gerber2graphtec-modern/actions/workflows/ci.yml)
+[![release](https://img.shields.io/github/v/release/reserve85/gerber2graphtec-modern)](https://github.com/reserve85/gerber2graphtec-modern/releases/latest)
 [![license](https://img.shields.io/badge/license-GPL--2.0-blue)](LICENSE)
 
 ![Main window](docs/screenshot.png)
@@ -75,7 +75,7 @@ not exported from a CAD program.
 ## Install
 
 **Windows:** download `Gerber2Graphtec-x.y.z.exe` from the
-[releases](https://github.com/reserve85/Gerber_to_Graphtec_modern/releases) and run it. No installation needed.
+[releases](https://github.com/reserve85/gerber2graphtec-modern/releases) and run it. No installation needed.
 
 **Linux:** download the `linux-x86_64` archive from the releases, or run from
 source:
