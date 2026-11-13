@@ -1,8 +1,10 @@
 # Changelog
 
-## Unreleased
+## 2.0.1
 
 - User manual in English and German (`docs/`), opened from the About page or with F1
+- The repository is now `reserve85/gerber2graphtec-modern`; the update check and all links use the new address
+- LICENSE contains the full GPL-2.0 text
 
 ## 2.0.0
 
