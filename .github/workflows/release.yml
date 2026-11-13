@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: New version, e.g. 2.1.0 (CHANGELOG.md needs a "## 2.1.0" section)
+        description: 'New version, for example 2.1.0. CHANGELOG.md needs a section for it.'
         required: true
         type: string
   push:

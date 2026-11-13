@@ -5,7 +5,7 @@ on:
   workflow_call:
     inputs:
       ref:
-        description: Git ref to build (default: the triggering commit)
+        description: "Git ref to build; empty builds the triggering commit"
         type: string
         default: ""
 
