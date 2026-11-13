@@ -9,13 +9,19 @@ from PySide6.QtGui import QDesktopServices, QPixmap
 from PySide6.QtWidgets import QHBoxLayout, QLabel, QVBoxLayout
 
 from .. import APP_NAME, GITHUB_REPO, __version__
-from ..i18n import tr
+from ..i18n import language, tr
 from ..updater import releases_url
 from .context import Context
 from .theme import Glyph
 from .widgets import Card, Page, label, push_button
 
 ASSETS = Path(__file__).resolve().parent.parent / "assets"
+
+
+def manual_url() -> str:
+    """The user manual on GitHub, in the language of the user interface."""
+    name = "handbuch" if language() == "de" else "manual"
+    return f"https://github.com/{GITHUB_REPO}/blob/main/docs/{name}.md"
 
 
 class AboutPage(Page):
@@ -51,11 +57,13 @@ class AboutPage(Page):
         buttons.setSpacing(8)
         update = push_button(tr("Check for updates"), Glyph.SYNC, primary=True)
         update.clicked.connect(ctx.checkUpdatesRequested.emit)
+        manual = push_button(tr("User manual"), Glyph.FILE)
+        manual.clicked.connect(lambda: QDesktopServices.openUrl(QUrl(manual_url())))
         github = push_button("GitHub", Glyph.GLOBE)
         github.clicked.connect(lambda: QDesktopServices.openUrl(QUrl(f"https://github.com/{GITHUB_REPO}")))
         releases = push_button(tr("Releases"), Glyph.EXPORT)
         releases.clicked.connect(lambda: QDesktopServices.openUrl(QUrl(releases_url())))
-        for b in (update, github, releases):
+        for b in (update, manual, github, releases):
             buttons.addWidget(b)
         buttons.addStretch(1)
         card.add_wide(buttons)

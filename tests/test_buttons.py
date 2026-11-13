@@ -483,9 +483,11 @@ def test_about_page_buttons(app_env):
     win, ctx, f, qapp = app_env
     click(win, "About", qapp)
     assert win.stack.currentWidget() is win.about_page
+    click(win.about_page, "User manual", qapp)
     click(win.about_page, "GitHub", qapp)
     click(win.about_page, "Releases", qapp)
     assert f.urls == [
+        "https://github.com/reserve85/Gerber_to_Graphtec_modern/blob/main/docs/manual.md",
         "https://github.com/reserve85/Gerber_to_Graphtec_modern",
         "https://github.com/reserve85/Gerber_to_Graphtec_modern/releases",
     ]
@@ -521,3 +523,23 @@ def test_click_every_button_without_errors(app_env, lang):
             assert clicked >= 2  # "Use for stencil" leaves the profiles page early
     win.job_page._stop_sim()
     assert f.errors == []
+
+
+def test_manual_exists_in_both_languages_and_links_resolve():
+    """The manuals the application links to exist, and their internal links point somewhere."""
+    import re
+
+    from g2g.ui.about_page import manual_url
+
+    docs = EXAMPLES.parent / "docs"
+    for lang, name in (("en", "manual.md"), ("de", "handbuch.md")):
+        i18n.set_language(lang)
+        assert manual_url().endswith(f"/docs/{name}")
+        text = (docs / name).read_text(encoding="utf-8")
+        headings = {re.sub(r"[^\w\- ]", "", h.lower()).replace(" ", "-") for h in re.findall(r"^#{1,6} (.+)$", text, re.M)}
+        for target in re.findall(r"\]\(([^)]+)\)", text):
+            if target.startswith("#"):
+                assert target[1:] in headings, f"{name}: broken anchor {target}"
+            elif not target.startswith("http"):
+                assert (docs / target).exists(), f"{name}: missing file {target}"
+    i18n.set_language("en")

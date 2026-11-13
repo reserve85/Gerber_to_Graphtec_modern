@@ -147,6 +147,7 @@ DE = {
     "Update check failed: {0}": "Update-Prüfung fehlgeschlagen: {0}",
     "Updates": "Updates",
     "Use for stencil": "Für Schablone verwenden",
+    "User manual": "Handbuch",
     "Version {0}": "Version {0}",
     "Version {0} is available.": "Version {0} ist verfügbar.",
     "You are up to date (version {0}).": "Die Anwendung ist aktuell (Version {0}).",

@@ -90,6 +90,12 @@ device node such as `/dev/usb/lp0` (add yourself to the `lp` group).
 
 ## Usage
 
+**Full documentation: [User manual](docs/manual.md) - [Benutzerhandbuch (Deutsch)](docs/handbuch.md)**
+
+In the application, *About > User manual* or `F1` opens it.
+
+In short:
+
 1. Open or drop the solder paste Gerber of your board.
 2. Pick a profile, adjust passes (speed / force), placement and media.
 3. Check the preview and statistics.

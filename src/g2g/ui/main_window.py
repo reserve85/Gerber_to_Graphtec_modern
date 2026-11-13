@@ -24,7 +24,7 @@ from PySide6.QtWidgets import (
 from .. import APP_NAME, __version__, updater
 from ..i18n import tr
 from . import theme
-from .about_page import ASSETS, AboutPage
+from .about_page import ASSETS, AboutPage, manual_url
 from .context import Context
 from .job_page import JobPage
 from .profiles_page import ProfilesPage
@@ -179,6 +179,7 @@ class MainWindow(QMainWindow):
         QShortcut(QKeySequence("Ctrl+E"), self, self.job_page.export_file)
         QShortcut(QKeySequence("Ctrl+Return"), self, self.job_page.send)
         QShortcut(QKeySequence("F5"), self, self.job_page.reload)
+        QShortcut(QKeySequence.StandardKey.HelpContents, self, lambda: QDesktopServices.openUrl(QUrl(manual_url())))
         QShortcut(QKeySequence("Ctrl+,"), self, lambda: self.show_page(2))
 
         if ctx.settings.geometry:

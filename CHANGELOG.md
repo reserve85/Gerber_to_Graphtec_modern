@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- User manual in English and German (`docs/`), opened from the About page or with F1
+
 ## 2.0.0
 
 Complete rewrite as a desktop application for Windows and Linux.
