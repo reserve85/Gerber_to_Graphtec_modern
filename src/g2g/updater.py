@@ -35,7 +35,7 @@ class Release:
 
 def parse_version(text: str) -> tuple[int, ...]:
     """'v2.1.0-beta' -> (2, 1, 0).  Unparseable input sorts lowest."""
-    nums = re.findall(r"\d+", text.split("-")[0].split("+")[0])
+    nums = re.findall(r"\d+", text.split("-", maxsplit=1)[0].split("+", maxsplit=1)[0])
     return tuple(int(n) for n in nums[:4]) or (0,)
 
 

@@ -59,7 +59,7 @@ class AppSettings:
         return config_dir() / "settings.json"
 
     @classmethod
-    def load(cls) -> "AppSettings":
+    def load(cls) -> AppSettings:
         raw = read_json(cls.path(), {})
         s = cls()
         if isinstance(raw, dict):

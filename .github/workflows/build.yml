@@ -1,0 +1,81 @@
+name: build executables
+
+# Reusable: tests on Windows and Linux, then builds the single-file executables.
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: Git ref to build (default: the triggering commit)
+        type: string
+        default: ""
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            asset: windows
+          - os: ubuntu-22.04
+            asset: linux
+    runs-on: ${{ matrix.os }}
+    env:
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Qt runtime libraries (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libegl1 libgl1 libxkbcommon0 libfontconfig1 libdbus-1-3
+
+      - name: Install
+        run: python -m pip install -e ".[dev]"
+
+      - name: Test
+        run: python -m pytest -q
+
+      - name: Version
+        id: version
+        shell: bash
+        run: echo "version=$(python -c 'import g2g; print(g2g.__version__)')" >> "$GITHUB_OUTPUT"
+
+      - name: Build executable
+        run: python -m PyInstaller --noconfirm Gerber2Graphtec.spec
+
+      - name: Smoke test the executable
+        shell: bash
+        run: |
+          exe=dist/Gerber2Graphtec
+          [ "$RUNNER_OS" = "Windows" ] && exe=dist/Gerber2Graphtec.exe
+          "$exe" examples/kicad_style_qfn32.gbr --screenshot smoke.png
+          test -s smoke.png
+
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          mkdir out
+          mv dist/Gerber2Graphtec.exe "out/Gerber2Graphtec-${{ steps.version.outputs.version }}.exe"
+
+      - name: Package (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          mkdir out
+          tar -C dist -czf "out/Gerber2Graphtec-${{ steps.version.outputs.version }}-linux-x86_64.tar.gz" Gerber2Graphtec
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Gerber2Graphtec-${{ matrix.asset }}
+          path: out/*
+          if-no-files-found: error

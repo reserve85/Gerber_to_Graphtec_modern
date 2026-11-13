@@ -1,0 +1,7 @@
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.png binary
+*.ico binary
+# reference data must stay byte-identical
+examples/*.gbr -text
+tests/legacy/** -text

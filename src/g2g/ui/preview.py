@@ -317,4 +317,6 @@ class PreviewWidget(QWidget):
             painter.setFont(font)
             painter.setPen(muted)
             box.translate(0, 28)
-            painter.drawText(box, Qt.AlignmentFlag.AlignCenter, tr("Solder paste layer (*.gbr, *.gtp, *.gbp ...) - or use \"Open\""))
+            painter.drawText(
+                box, Qt.AlignmentFlag.AlignCenter, tr('Solder paste layer (*.gbr, *.gtp, *.gbp ...) - or use "Open"')
+            )

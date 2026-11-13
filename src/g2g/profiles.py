@@ -20,7 +20,7 @@ class Profile:
         return {"name": self.name, "description": self.description, "params": self.params.to_dict()}
 
     @classmethod
-    def from_dict(cls, d: dict) -> "Profile":
+    def from_dict(cls, d: dict) -> Profile:
         return cls(
             name=str(d.get("name", "")).strip() or "Profile",
             description=str(d.get("description", "")),

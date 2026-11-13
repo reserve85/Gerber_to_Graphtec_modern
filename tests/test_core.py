@@ -228,7 +228,9 @@ def split_stream(stream: str):
     return _CMD.sub("", stream), moves
 
 
-@pytest.mark.parametrize("name", ["corners.gbr", "test_tiny.gbr", "test_0.5mm_0402.gbr", "example1.gbr", "fine_pitch_sampler.gbr"])
+@pytest.mark.parametrize(
+    "name", ["corners.gbr", "test_tiny.gbr", "test_0.5mm_0402.gbr", "example1.gbr", "fine_pitch_sampler.gbr"]
+)
 @pytest.mark.parametrize(
     "params",
     [

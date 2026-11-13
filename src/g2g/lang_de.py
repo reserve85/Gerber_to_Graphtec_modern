@@ -173,6 +173,7 @@ DE = {
     "Flash inside a region was ignored.": "Blitz innerhalb einer Region wurde ignoriert.",
     "Flash without a selected aperture was ignored.": "Blitz ohne gewählte Blende wurde ignoriert.",
     "No unit statement (%MO) found; inches assumed.": "Keine Einheitenangabe (%MO) gefunden; Zoll angenommen.",
+    "Some pads have holes. Only their outline is cut; the island inside would fall out.": "Einige Pads haben Löcher. Es wird nur die Außenkontur geschnitten; die Insel im Inneren würde herausfallen.",
 }
 
 # Catalogue keys that do not appear as tr("...") literals in the source.
@@ -188,4 +189,5 @@ DYNAMIC = {
     "Flash inside a region was ignored.",
     "Flash without a selected aperture was ignored.",
     "No unit statement (%MO) found; inches assumed.",
+    "Some pads have holes. Only their outline is cut; the island inside would fall out.",
 }

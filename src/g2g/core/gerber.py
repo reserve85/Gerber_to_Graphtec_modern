@@ -114,18 +114,14 @@ def eval_expr(expr: str, variables: dict[int, float]) -> float:
 
 
 def _rect(w: float, h: float, cx: float = 0.0, cy: float = 0.0) -> Polygon:
-    return Polygon(
-        [(cx - w / 2, cy - h / 2), (cx + w / 2, cy - h / 2), (cx + w / 2, cy + h / 2), (cx - w / 2, cy + h / 2)]
-    )
+    return Polygon([(cx - w / 2, cy - h / 2), (cx + w / 2, cy - h / 2), (cx + w / 2, cy + h / 2), (cx - w / 2, cy + h / 2)])
 
 
 def _regular(diameter: float, n: int, rot: float, cx: float = 0.0, cy: float = 0.0) -> Polygon:
     n = max(3, int(n))
     r = diameter / 2
     a0 = math.radians(rot)
-    return Polygon(
-        [(cx + r * math.cos(a0 + 2 * math.pi * i / n), cy + r * math.sin(a0 + 2 * math.pi * i / n)) for i in range(n)]
-    )
+    return Polygon([(cx + r * math.cos(a0 + 2 * math.pi * i / n), cy + r * math.sin(a0 + 2 * math.pi * i / n)) for i in range(n)])
 
 
 def build_macro(body: list[str], params: list[float], tol: float) -> BaseGeometry:
@@ -136,8 +132,8 @@ def build_macro(body: list[str], params: list[float], tol: float) -> BaseGeometr
     def rot(g: BaseGeometry, angle: float) -> BaseGeometry:
         return affinity.rotate(g, angle, origin=(0, 0)) if angle else g
 
-    for stmt in body:
-        stmt = stmt.strip()
+    for raw_stmt in body:
+        stmt = raw_stmt.strip()
         if not stmt or re.match(r"0(?![0-9.])", stmt):
             continue  # empty or comment primitive
         if stmt.startswith("$"):
@@ -150,7 +146,7 @@ def build_macro(body: list[str], params: list[float], tol: float) -> BaseGeometr
         exposure = True
         g: BaseGeometry | None = None
 
-        def arg(i: int, default: float = 0.0) -> float:
+        def arg(i: int, default: float = 0.0, p: list[float] = p) -> float:
             return p[i] if i < len(p) else default
 
         if code == 1:  # circle: exposure, diameter, cx, cy[, rotation]
@@ -260,9 +256,7 @@ class _Parser:
     def transformed(self, ap: _Aperture) -> BaseGeometry:
         g = ap.geom
         if self.mirror != "N":
-            g = affinity.scale(
-                g, -1 if "X" in self.mirror else 1, -1 if "Y" in self.mirror else 1, origin=(0, 0)
-            )
+            g = affinity.scale(g, -1 if "X" in self.mirror else 1, -1 if "Y" in self.mirror else 1, origin=(0, 0))
         if self.rotation:
             g = affinity.rotate(g, self.rotation, origin=(0, 0))
         if self.scale != 1.0:
@@ -298,10 +292,13 @@ class _Parser:
             self.flush_path()
             self.dark = cmd[2:3] != "C"
         elif code == "LM":
+            self.flush_path()
             self.mirror = cmd[2:] or "N"
         elif code == "LR":
+            self.flush_path()
             self.rotation = float(cmd[2:] or 0)
         elif code == "LS":
+            self.flush_path()
             self.scale = float(cmd[2:] or 1)
         elif code == "IP":
             if cmd[2:5] == "NEG":
@@ -468,8 +465,10 @@ class _Parser:
             self.close_contour()
             self.in_region = False
         elif g == 70:
+            self.unit_set = True
             self.unit = MM_PER_INCH
         elif g == 71:
+            self.unit_set = True
             self.unit = 1.0
         elif g == 74:
             self.multi_quadrant = False
@@ -540,6 +539,8 @@ class _Parser:
             merged = unary_union(geoms)
             acc = acc.union(merged) if dark else acc.difference(merged)
         polys = explode(acc)
+        if any(p.interiors for p in polys):
+            self.warn("Some pads have holes. Only their outline is cut; the island inside would fall out.")
         geometry = MultiPolygon(polys) if polys else Polygon()
         return GerberResult(
             geometry=geometry,

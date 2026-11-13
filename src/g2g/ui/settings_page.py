@@ -2,14 +2,12 @@
 
 from __future__ import annotations
 
-from PySide6.QtCore import QUrl, Qt
+from PySide6.QtCore import Qt, QUrl
 from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import (
     QCheckBox,
-    QFileDialog,
     QHBoxLayout,
     QLineEdit,
-    QMessageBox,
     QRadioButton,
     QScrollArea,
     QVBoxLayout,
@@ -79,7 +77,10 @@ class SettingsPage(Page):
         self.printer_row = card.add_row(
             tr("Cutter"),
             holder,
-            tip=tr("The Silhouette / Graphtec cutter as it appears in the printer list of your system (Windows: Printers & scanners, Linux: CUPS). The job is sent as RAW data."),
+            tip=tr(
+                "The Silhouette / Graphtec cutter as it appears in the printer list of your system "
+                "(Windows: Printers & scanners, Linux: CUPS). The job is sent as RAW data."
+            ),
         )
         card.add_wide(self.mode_path)
         self.device_path = QLineEdit(s.device_path)

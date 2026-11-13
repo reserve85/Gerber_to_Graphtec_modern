@@ -2,15 +2,29 @@
 
 ## 2.0.0
 
-Complete rewrite as a desktop application.
+Complete rewrite as a desktop application for Windows and Linux.
 
-- Native Gerber (RS-274X) reader; gerbv and pstoedit are no longer required
-- New Qt user interface with live preview and cutting simulation
-- Profiles (built-in and user defined, import/export)
-- Statistics incl. knife strokes, cut length, travel and estimated duration
+**New**
+
+- Native Gerber (RS-274X) reader: aperture macros, regions, arcs, polarity,
+  aperture transformations. gerbv, pstoedit and Ghostscript are no longer needed.
+- Qt user interface with live preview, zoom / pan and a simulation of the
+  cutting order
+- Profiles (built-in and user defined, import / export)
+- Statistics: pads, knife strokes, straight cuts, cut length, travel, smallest
+  opening, estimated duration
 - Pad shrink, rotation, mirroring, media presets, calibration matrix
-- Output to an installed printer (RAW), a device path or a file
-- Settings page, dark/light theme, German/English, mm/inch
-- Update check against GitHub releases
-- Single-file executable for Windows, Linux build, command line tool `g2g-cli`
-- Cutting strategy unchanged; output verified against the original code
+- Output as RAW job to an installed printer (Windows spooler, CUPS), to a
+  device path, or to a file
+- Settings page, dark / light theme, German / English, mm / inch
+- Update check against the GitHub releases
+- Single-file executable for Windows and Linux, command line tool `g2g-cli`
+
+**Compared with the original tool chain**
+
+- The cutting strategy is unchanged (single lines in both directions, grouped
+  by knife angle, a training cut per angle); the command stream is verified
+  against the original code.
+- Round pads are cut round instead of as 8-point diamonds.
+- Pads at the board edge are no longer clipped, and no pads are dropped.
+- KiCad-style rounded rectangle pads, clear polarity and arcs are read correctly.

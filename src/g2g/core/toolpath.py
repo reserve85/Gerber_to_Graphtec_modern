@@ -53,7 +53,7 @@ class CutParams:
         return d
 
     @classmethod
-    def from_dict(cls, d: dict) -> "CutParams":
+    def from_dict(cls, d: dict) -> CutParams:
         base = cls()
         for key in ("offset_x", "offset_y", "border_x", "border_y", "media_w", "media_h", "rotate", "inset"):
             if key in d:
@@ -134,8 +134,7 @@ class Job:
             total += _perimeter(self.border_path)
         return total
 
-
-    def stats(self) -> "JobStats":
+    def stats(self) -> JobStats:
         """Figures for one pass and for the whole job."""
         p = self.params
         # every knife-down run as (start, end, length)
@@ -171,8 +170,7 @@ class Job:
             pad_area=sum(q.area for q in self.polygons),
             smallest_opening=smallest,
             seconds=sum(
-                cut / (CUT_SPEED_PER_UNIT * max(1, cp.speed)) + travel / TRAVEL_SPEED + len(runs) * LIFT_TIME
-                for cp in p.passes
+                cut / (CUT_SPEED_PER_UNIT * max(1, cp.speed)) + travel / TRAVEL_SPEED + len(runs) * LIFT_TIME for cp in p.passes
             )
             + (HANDLING_TIME if runs else 0.0),
         )

@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-from PySide6.QtCore import QByteArray, QSize, QThread, QUrl, Qt, Signal
+import threading
+
+from PySide6.QtCore import QByteArray, QObject, QSize, Qt, QUrl, Signal
 from PySide6.QtGui import QDesktopServices, QIcon, QKeySequence, QPixmap, QShortcut
 from PySide6.QtWidgets import (
     QButtonGroup,
@@ -19,8 +21,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from .. import APP_NAME, __version__
-from .. import updater
+from .. import APP_NAME, __version__, updater
 from ..i18n import tr
 from . import theme
 from .about_page import ASSETS, AboutPage
@@ -32,14 +33,29 @@ from .theme import Glyph
 from .widgets import Toast, label, push_button
 
 
-class UpdateWorker(QThread):
+class UpdateWorker(QObject):
+    """Looks up the latest release in a daemon thread, so it can never block quitting."""
+
     finishedWith = Signal(object, str)  # Release | None, error text
 
-    def run(self) -> None:
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.running = False
+
+    def start(self) -> None:
+        self.running = True
+        threading.Thread(target=self._run, daemon=True).start()
+
+    def _run(self) -> None:
         try:
-            self.finishedWith.emit(updater.fetch_latest(), "")
+            result, error = updater.fetch_latest(), ""
         except updater.UpdateError as exc:
-            self.finishedWith.emit(None, str(exc) or "error")
+            result, error = None, str(exc) or "error"
+        self.running = False
+        try:
+            self.finishedWith.emit(result, error)
+        except RuntimeError:
+            pass  # window already closed
 
 
 class UpdateDialog(QDialog):
@@ -202,7 +218,7 @@ class MainWindow(QMainWindow):
     # -- updates -----------------------------------------------------------
 
     def check_updates(self, manual: bool = False) -> None:
-        if self._worker is not None and self._worker.isRunning():
+        if self._worker is not None and self._worker.running:
             return
         self._manual_check = manual
         self.settings_page.set_update_status(tr("Checking ..."), busy=True)

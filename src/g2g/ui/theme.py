@@ -164,7 +164,7 @@ def glyph_pixmap(glyph: str, color: str, size: int = 18, dpr: float = 2.0) -> QP
     return px
 
 
-_glyph_buttons: "weakref.WeakKeyDictionary[QAbstractButton, tuple[str, str, int]]" = weakref.WeakKeyDictionary()
+_glyph_buttons: weakref.WeakKeyDictionary[QAbstractButton, tuple[str, str, int]] = weakref.WeakKeyDictionary()
 
 
 def _glyph_icon(glyph: str, role: str, size: int) -> QIcon:

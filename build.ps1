@@ -7,6 +7,8 @@ if (-not (Test-Path .venv)) {
 }
 & .\.venv\Scripts\python -m pip install -q --upgrade pip
 & .\.venv\Scripts\python -m pip install -q -e ".[dev]"
+& .\.venv\Scripts\python -m ruff check .
+if ($LASTEXITCODE -ne 0) { throw "lint failed" }
 & .\.venv\Scripts\python -m pytest -q
 if ($LASTEXITCODE -ne 0) { throw "tests failed" }
 & .\.venv\Scripts\python -m PyInstaller --noconfirm --clean Gerber2Graphtec.spec

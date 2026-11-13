@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from PySide6.QtCore import QTimer, Qt
+from PySide6.QtCore import Qt, QTimer
 from PySide6.QtWidgets import (
     QButtonGroup,
     QCheckBox,
@@ -44,6 +44,14 @@ MEDIA_PRESETS: list[tuple[str, float, float]] = [
 MAX_PASSES = 6
 
 
+class PopupMenu(QMenu):
+    """Menu shown with exec(); a Python subclass so tests can replace exec."""
+
+
+class ConfirmBox(QMessageBox):
+    """Modal question shown with exec(); a Python subclass so tests can replace exec."""
+
+
 def format_duration(seconds: float) -> str:
     seconds = int(round(seconds))
     if seconds < 60:
@@ -81,8 +89,10 @@ class PassEditor(QWidget):
     def set_passes(self, passes: list[CutPass]) -> None:
         while self._grid.count():
             item = self._grid.takeAt(0)
-            if item.widget():
-                item.widget().deleteLater()
+            widget = item.widget()
+            if widget is not None:
+                widget.hide()  # gone at once, not only after the next event loop pass
+                widget.deleteLater()
         self._rows = []
         self._grid.addWidget(label("#", "fieldLabel"), 0, 0)
         self._grid.addWidget(label(tr("Speed (1-10)"), "fieldLabel"), 0, 1)
@@ -523,7 +533,7 @@ class JobPage(QWidget):
             return self.save_profile_as()
         self.ctx.store.put(profile.name, self.params())
         self.ctx.profilesChanged.emit()
-        self.ctx.toast.emit(tr("Profile \"{0}\" saved").format(profile.name))
+        self.ctx.toast.emit(tr('Profile "{0}" saved').format(profile.name))
 
     def save_profile_as(self) -> None:
         suggestion = self.ctx.store.unique_name(tr("My profile"))
@@ -533,16 +543,18 @@ class JobPage(QWidget):
             return
         existing = self.ctx.store.get(name)
         if existing and existing.builtin:
-            QMessageBox.warning(self, tr("Save as new profile"), tr("Built-in profiles cannot be overwritten. Choose another name."))
+            QMessageBox.warning(
+                self, tr("Save as new profile"), tr("Built-in profiles cannot be overwritten. Choose another name.")
+            )
             return
         if existing:
-            answer = QMessageBox.question(self, tr("Save as new profile"), tr("Overwrite the profile \"{0}\"?").format(name))
+            answer = QMessageBox.question(self, tr("Save as new profile"), tr('Overwrite the profile "{0}"?').format(name))
             if answer != QMessageBox.StandardButton.Yes:
                 return
         profile = self.ctx.store.put(name, self.params())
         self.ctx.settings.active_profile = profile.name
         self.ctx.profilesChanged.emit()
-        self.ctx.toast.emit(tr("Profile \"{0}\" saved").format(profile.name))
+        self.ctx.toast.emit(tr('Profile "{0}" saved').format(profile.name))
 
     # ---------------------------------------------------------------- file
 
@@ -554,7 +566,7 @@ class JobPage(QWidget):
             self.load_file(path)
 
     def _show_recent(self) -> None:
-        menu = QMenu(self)
+        menu = PopupMenu(self)
         files = [f for f in self.ctx.settings.recent_files if Path(f).exists()]
         if not files:
             menu.addAction(tr("No recent files")).setEnabled(False)
@@ -756,10 +768,10 @@ class JobPage(QWidget):
         if s.confirm_send:
             p = self.job.params
             passes = ", ".join(f"{cp.speed}/{cp.force}" for cp in p.passes)
-            box = QMessageBox(self)
+            box = ConfirmBox(self)
             box.setWindowTitle(tr("Send to cutter"))
             box.setIcon(QMessageBox.Icon.Question)
-            box.setText(tr("Start cutting on \"{0}\"?").format(target))
+            box.setText(tr('Start cutting on "{0}"?').format(target))
             box.setInformativeText(
                 tr("{0} pads, {1} pass(es) (speed/force: {2}).\nMake sure the media is loaded and the blade is set.").format(
                     len(self.job.strokes), len(p.passes), passes

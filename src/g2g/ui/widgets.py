@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import weakref
 
-from PySide6.QtCore import QEvent, QTimer, Qt, Signal
+from PySide6.QtCore import QEvent, Qt, QTimer, Signal
 from PySide6.QtWidgets import (
     QComboBox,
     QDoubleSpinBox,
@@ -63,7 +63,7 @@ class LengthSpin(DoubleSpinBox):
     """A length input that stores millimetres and displays mm or inch."""
 
     mmChanged = Signal(float)
-    _instances: "weakref.WeakSet[LengthSpin]" = weakref.WeakSet()
+    _instances: weakref.WeakSet[LengthSpin] = weakref.WeakSet()
     _unit = "mm"
 
     def __init__(self, lo_mm: float, hi_mm: float, step_mm: float = 1.0, parent=None):

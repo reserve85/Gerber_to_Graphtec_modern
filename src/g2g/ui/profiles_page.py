@@ -24,7 +24,9 @@ from .widgets import Card, Page, label, push_button
 
 class ProfilesPage(Page):
     def __init__(self, ctx: Context, parent=None):
-        super().__init__(tr("Profiles"), tr("Presets for materials and machines. Parameters are edited on the Stencil page."), parent)
+        super().__init__(
+            tr("Profiles"), tr("Presets for materials and machines. Parameters are edited on the Stencil page."), parent
+        )
         self.ctx = ctx
 
         self.import_button = push_button(tr("Import"), Glyph.IMPORT)
@@ -148,7 +150,7 @@ class ProfilesPage(Page):
         p = self.current()
         if p:
             self.ctx.loadProfileRequested.emit(p.name)
-            self.ctx.toast.emit(tr("Profile \"{0}\" loaded").format(p.name))
+            self.ctx.toast.emit(tr('Profile "{0}" loaded').format(p.name))
 
     def _duplicate(self) -> None:
         p = self.current()
@@ -181,7 +183,7 @@ class ProfilesPage(Page):
         p = self.current()
         if not p or p.builtin:
             return
-        answer = QMessageBox.question(self, tr("Delete"), tr("Delete the profile \"{0}\"?").format(p.name))
+        answer = QMessageBox.question(self, tr("Delete"), tr('Delete the profile "{0}"?').format(p.name))
         if answer != QMessageBox.StandardButton.Yes:
             return
         self.ctx.store.delete(p.name)

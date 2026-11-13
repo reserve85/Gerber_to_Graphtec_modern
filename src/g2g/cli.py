@@ -19,7 +19,7 @@ def _pair(text: str) -> tuple[float, float]:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="g2g-cli", description="Cut SMT stencils from Gerber files on Graphtec cutters.")
-    ap.add_argument("gerber", help="solder paste Gerber file")
+    ap.add_argument("gerber", nargs="?", help="solder paste Gerber file")
     ap.add_argument("-o", "--output", help="write the command stream to this file")
     ap.add_argument("--printer", help="send to this Windows printer (RAW)")
     ap.add_argument("--list-printers", action="store_true")
@@ -41,6 +41,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.list_printers:
         print("\n".join(output.list_printers()))
         return 0
+    if not args.gerber:
+        ap.error("a Gerber file is required")
 
     store = ProfileStore()
     profile = store.get(args.profile or "Standard")

@@ -3,19 +3,24 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 
 from PySide6.QtCore import QLocale, QTimer
 from PySide6.QtWidgets import QApplication
 
-from .. import APP_AUTHOR, APP_NAME, __version__
-from .. import i18n
+from .. import APP_AUTHOR, APP_NAME, __version__, i18n
 from . import theme
 from .context import Context
 from .widgets import LengthSpin
 
 
 def main(argv: list[str] | None = None) -> int:
+    # A windowed executable has no console: give argparse somewhere to write.
+    if sys.stdout is None:
+        sys.stdout = open(os.devnull, "w")  # noqa: SIM115
+    if sys.stderr is None:
+        sys.stderr = open(os.devnull, "w")  # noqa: SIM115
     ap = argparse.ArgumentParser(prog=APP_NAME)
     ap.add_argument("file", nargs="?", help="Gerber file to open")
     ap.add_argument("--version", action="version", version=__version__)
@@ -51,9 +56,7 @@ def main(argv: list[str] | None = None) -> int:
     from .main_window import MainWindow
 
     win = MainWindow(ctx)
-    app.styleHints().colorSchemeChanged.connect(
-        lambda _: ctx.settings.theme == "system" and theme.apply_theme(app, "system")
-    )
+    app.styleHints().colorSchemeChanged.connect(lambda _: ctx.settings.theme == "system" and theme.apply_theme(app, "system"))
     win.show()
 
     if args.file:

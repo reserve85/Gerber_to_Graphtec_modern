@@ -111,7 +111,6 @@ if sys.platform == "win32":
             spool.ClosePrinter(handle)
 
 else:
-
     import shutil
     import subprocess
 
@@ -130,9 +129,7 @@ else:
         if not shutil.which("lp"):
             raise OutputError("CUPS (lp) is not installed; use a device path such as /dev/usb/lp0 instead.")
         try:
-            res = subprocess.run(
-                ["lp", "-d", printer, "-o", "raw", "-t", title], input=data, capture_output=True, timeout=30
-            )
+            res = subprocess.run(["lp", "-d", printer, "-o", "raw", "-t", title], input=data, capture_output=True, timeout=30)
         except (OSError, subprocess.SubprocessError) as exc:
             raise OutputError(str(exc)) from exc
         if res.returncode != 0:
