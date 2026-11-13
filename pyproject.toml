@@ -9,10 +9,27 @@ description = "Cut SMT solder paste stencils from Gerber files on Graphtec / Sil
 readme = "README.md"
 license = "GPL-2.0-only"
 requires-python = ">=3.10"
+keywords = ["gerber", "graphtec", "silhouette", "cameo", "portrait", "stencil", "smt", "solder paste", "pcb", "cutting plotter"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: X11 Applications :: Qt",
+    "Environment :: Win32 (MS Windows)",
+    "Intended Audience :: Manufacturing",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)",
+]
 dependencies = [
     "PySide6-Essentials>=6.6",
     "shapely>=2.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/reserve85/Gerber_to_Graphtec_modern"
+Releases = "https://github.com/reserve85/Gerber_to_Graphtec_modern/releases"
+Issues = "https://github.com/reserve85/Gerber_to_Graphtec_modern/issues"
+Changelog = "https://github.com/reserve85/Gerber_to_Graphtec_modern/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 dev = ["pytest", "pyinstaller>=6", "ruff"]
