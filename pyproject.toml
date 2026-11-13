@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gerber2graphtec"
+dynamic = ["version"]
+description = "Cut SMT solder paste stencils from Gerber files on Graphtec / Silhouette cutters"
+readme = "README.md"
+license = { text = "GPL-2.0-only" }
+requires-python = ">=3.10"
+dependencies = [
+    "PySide6-Essentials>=6.6",
+    "shapely>=2.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pyinstaller>=6"]
+
+[project.scripts]
+g2g-cli = "g2g.cli:main"
+
+[project.gui-scripts]
+gerber2graphtec = "g2g.ui.app:main"
+
+[tool.setuptools.dynamic]
+version = { attr = "g2g.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+g2g = ["assets/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

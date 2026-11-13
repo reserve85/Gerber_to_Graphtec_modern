@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+build/
+dist/
+# reference checkout of the original project
+upstream/
+# generated job files
+*.graphtec
